@@ -95,7 +95,7 @@ const EditProfile = () => {
                 onChange={e => setFile(e.target.files[0])}
                 style={{ display: 'none' }}
               />
-              <ImagePreview src={previewURL.toString()} alt='Please pick an image' />
+              <ImagePreview src='../../../assets/images/save.png' alt='Please pick an image' />
               <Button onClick={() => filePickerRef.current.click()}>Choose image</Button>
             </InputWrapper>
             <InputWrapper>

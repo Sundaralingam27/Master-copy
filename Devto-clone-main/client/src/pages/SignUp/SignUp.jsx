@@ -138,7 +138,7 @@ const SignUp = () => {
                 style={{ display: 'none' }}
                 onChange={e => setFile(e.target.files[0])}
               />
-              <ImagePreview src={picture.toString()} alt='Please pick an image' />
+              <ImagePreview src='../../../assets/images/save.png' alt='Please pick an image' />
               <Button
                 onClick={e => {
                   e.preventDefault();

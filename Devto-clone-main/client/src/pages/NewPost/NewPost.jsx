@@ -96,7 +96,7 @@ const NewPost = () => {
                 style={{ display: 'none' }}
                 required
               />
-              <ImagePreview src={previewURL.toString()} alt='Please pick an image' />
+              <ImagePreview src='../../../assets/images/save.png' alt='Please pick an image' />
               <Button onClick={() => filePickerRef.current.click()}>Choose image</Button>
             </InputWrapper>
             <InputWrapper>
