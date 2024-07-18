@@ -4,7 +4,7 @@ import { createPostUrl, getPostParams } from '../../../helpers/string';
 
 const Notification = ({ notification: { type, sender, receiver, post, comment } }) => {
     const navigate = useNavigate();
-    const { encodedTitle, encodedId } = getPostParams(`${post.title}-${post.id}`);
+    const { encodedTitle, encodedId } = getPostParams(`${post?.title}-${post?.id}`);
     const postUrl = createPostUrl(encodedTitle, encodedId);
     return (
         sender &&
