@@ -23,6 +23,8 @@ import Layout from '../common/Layout';
 import NotFound from '../common/NotFound';
 import RequireAuth from '../common/RequireAuth/RequireAuth';
 
+import Messenger from '../pages/Messenger/Messenger'
+
 const Routes = () => {
   const location = useLocation();
 
@@ -74,6 +76,7 @@ const Routes = () => {
             <Route path='dashboard' element={<Dashboard />} />
             <Route path='notifications' element={<Notifications />} />
             <Route path='reading-list' element={<Home saved={true} />} />
+            <Route path='messenger' element={<Messenger />} />
           </Route>
 
           <Route path='*' element={<NotFound />} />

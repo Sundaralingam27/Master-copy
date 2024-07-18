@@ -54,7 +54,12 @@ const Resources = ({ saved }) => {
             Reading List
           </LinkWrapper>
         </Link>
-
+        <Link to='messenger'>
+          <LinkWrapper>
+            <Image src='../../../assets/images/chat.png' />
+            Messenger
+          </LinkWrapper>
+        </Link>
         <Link to='tags'>
           <LinkWrapper>
             <Image src='../../../assets/images/tags.png' />
@@ -75,7 +80,7 @@ const Resources = ({ saved }) => {
         </Link>
         <Link to=''>
           <LinkWrapper>
-            <Image src='../../../assets/images/chat.png' />
+            <Image src='../../../assets/images/contact.jpg' />
             Contact
           </LinkWrapper>
         </Link>
