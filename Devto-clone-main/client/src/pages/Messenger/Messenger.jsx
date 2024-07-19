@@ -17,6 +17,7 @@ export default function Messenger() {
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const socket = useRef();
   const scrollRef = useRef();
 
@@ -89,7 +90,9 @@ export default function Messenger() {
     const getMessages = async () => {
       if (currentChat) {
         try {
-          const res = await axios.get("//localhost:5000/messages/" + userId);
+          const res = await axios.get(
+            "//localhost:5000/messages/" + currentChat._id
+          );
           setMessages(res.data);
         } catch (err) {
           console.log(err);
@@ -119,7 +122,7 @@ export default function Messenger() {
       });
 
       try {
-        const res = await axios.post("/messages", message);
+        const res = await axios.post("//localhost:5000/messages", message);
         setMessages([...messages, res.data]);
         setNewMessage("");
       } catch (err) {
@@ -129,14 +132,16 @@ export default function Messenger() {
     [currentChat, messages, newMessage, user]
   );
 
-  useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
   return (
     <div className="messenger">
       <div className="chatMenu">
         <div className="chatMenuWrapper">
-          <input placeholder="Search for friends" className="chatMenuInput" />
+          <input
+            placeholder="Search for friends"
+            value=""
+            className="chatMenuInput"
+            onChange={() => setFilteredUsers(value)}
+          />
           {conversations.map((c) => (
             <div key={c._id} onClick={() => setCurrentChat(c)}>
               <Conversation conversation={c} currentUser={user} />
@@ -146,26 +151,34 @@ export default function Messenger() {
       </div>
       <div className="chatBox">
         <div className="chatBoxWrapper">
-          <>
-            <div className="chatBoxTop">
-              {messages.map((m) => (
-                <div key={m._id} ref={scrollRef}>
-                  <Message message={m} own={m.sender === user._id} />
-                </div>
-              ))}
-            </div>
-            <div className="chatBoxBottom">
-              <textarea
-                className="chatMessageInput"
-                placeholder="write something..."
-                onChange={(e) => setNewMessage(e.target.value)}
-                value={newMessage}
-              ></textarea>
-              <button className="chatSubmitButton" onClick={handleSubmit}>
-                Send
-              </button>
-            </div>
-          </>
+          {currentChat ? (
+            <>
+              <div className="chatBoxTop">
+                {messages.map((m) => (
+                  <div ref={scrollRef}>
+                    <Message message={m} own={m.sender === user._id} />
+                  </div>
+                ))}
+              </div>
+              <div className="chatBoxBottom">
+                <textarea
+                  className="chatMessageInput"
+                  placeholder="write something..."
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  value={newMessage}
+                ></textarea>
+                <button className="chatSubmitButton" onClick={handleSubmit}>
+                  Send
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <span className="noConversationText">
+                Open a conversation to start a chat.
+              </span>
+            </>
+          )}
         </div>
       </div>
       <div className="chatOnline">

@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./conversations.css";
-import { useGetUserByIdQuery } from "../../../../core/features/users/usersApiSlice";
 
 export default function Conversation({ conversation, currentUser }) {
   const [user, setUser] = useState(null);
