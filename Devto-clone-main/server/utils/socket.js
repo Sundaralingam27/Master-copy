@@ -1,20 +1,24 @@
 let onlineUsers = [];
 
-const addUser = (username, socketId) =>
-  !onlineUsers.some(user => user.username === username) && onlineUsers.push({ username, socketId });
-
-const removeUser = socketId => {
-  onlineUsers = onlineUsers.filter(user => user.socketId !== socketId);
+const addUser = (userId, socketId) => {
+  !onlineUsers.some((user) => user.userId === userId) &&
+    onlineUsers.push({ userId, socketId });
 };
 
-const findConnectedUser = username => onlineUsers.find(user => user.username === username);
+const removeUser = (socketId) => {
+  onlineUsers = onlineUsers.filter((user) => user.socketId !== socketId);
+};
 
-const socketHandlers = io => {
-  return io.on('connection', socket => {
+const getUser = (userId) => {
+  return onlineUsers.find((user) => user.userId === userId);
+};
+
+const socketHandlers = (io) => {
+  return io.on("connection", (socket) => {
     const handler = (sender, receiver, { type, reactionType, post }) => {
-      const receiverSocket = findConnectedUser(receiver.username);
-      if (receiverSocket && sender.id != receiver.id) {
-        io.to(receiverSocket.socketId).emit('notificationReceived', {
+      const receiverSocket = getUser(receiver.userId);
+      if (receiverSocket && sender.id !== receiver.id) {
+        io.to(receiverSocket.socketId).emit("notificationReceived", {
           sender,
           receiverUsername: receiver.username,
           type,
@@ -24,30 +28,48 @@ const socketHandlers = io => {
       }
     };
 
-    socket.on('join', username => {
-      addUser(username, socket.id);
+    socket.on("join", (userId) => {
+      addUser(userId, socket.id);
+      io.emit("getUsers", onlineUsers);
     });
 
-    socket.on('follow', ({ sender, receiver }) => {
-      handler(sender, receiver, { type: 'follow' });
+    socket.on("addUser", (userId) => {
+      addUser(userId, socket.id);
+      io.emit("getUsers", onlineUsers);
+    });
+  
+    socket.on("follow", ({ sender, receiver }) => {
+      handler(sender, receiver, { type: "follow" });
     });
 
-    socket.on('react', ({ sender, receiver, reactionType, post }) => {
-      handler(sender, receiver, { type: 'react', reactionType, post });
+    socket.on("react", ({ sender, receiver, reactionType, post }) => {
+      handler(sender, receiver, { type: "react", reactionType, post });
     });
 
-    socket.on('comment', ({ sender, receiver, post }) => {
-      handler(sender, receiver, { type: 'comment', post });
+    socket.on("comment", ({ sender, receiver, post }) => {
+      handler(sender, receiver, { type: "comment", post });
     });
 
-    socket.on('post', ({ sender, receivers, post }) => {
-      receivers.map(receiver => {
-        handler(sender, receiver, { type: 'post', post });
+    socket.on("post", ({ sender, receivers, post }) => {
+      receivers.map((receiver) => {
+        handler(sender, receiver, { type: "post", post });
       });
     });
 
-    socket.on('disconnect', () => {
+    //send and get message
+    socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+      const user = getUser(receiverId);
+      if (user) {
+        io.to(user.socketId).emit("getMessage", {
+          senderId,
+          text,
+        });
+      }
+    });
+
+    socket.on("disconnect", () => {
       removeUser(socket.id);
+      io.emit("getUsers", onlineUsers);
     });
   });
 };

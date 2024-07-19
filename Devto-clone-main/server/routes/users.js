@@ -21,4 +21,9 @@ router.route('/:userId/notifications').get(notificationsController.getNotificati
 
 router.route('/:userId/notifications/unread').get(notificationsController.getUnreadNotifications);
 
+router.route('/:userId/friends/').get(usersController.getFriends);
+
+
+router.route('/:userId').get(usersController.getUserById);
+
 module.exports = router;

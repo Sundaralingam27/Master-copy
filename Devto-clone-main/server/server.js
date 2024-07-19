@@ -20,9 +20,7 @@ const httpServer = createServer(app);
 
 (async () => {
     try {
-        mongoose.connect(`mongodb+srv://sundarsuhhas:12345@cluster0.g3rfwot.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`,
-
-            //`mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.ynmnh.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`,
+        mongoose.connect(`mongodb+srv://udhayaraj22selvam:Laalini%401409@cluster0.iv2ss1x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`,
             dbConn  
         );
         console.log('Database connected successfully')
@@ -60,6 +58,8 @@ app.use('/users', require('./routes/users'));
 app.use('/posts', require('./routes/posts'));
 app.use('/comments', require('./routes/comments'));
 app.use('/tags', require('./routes/tags'));
+app.use('/conversations', require('./routes/conversation'));
+app.use('/messages', require('./routes/message'));
 
 mongoose.connection.once('open', () => {
     const io = new Server(httpServer, { cors: corsOptions });
