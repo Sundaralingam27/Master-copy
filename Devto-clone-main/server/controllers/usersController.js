@@ -147,11 +147,29 @@ const getFriends = async (req, res) => {
   }
 };
 
-const getUserById = async (req, res) => {
-  const user = await User.findById(req.params.userId)
-  console.log(user,'user')
-  res.status(200).json(user);
+const filterUserByName = async (req, res) => {
+  const username = req.params.username;
+  console.log(username,'user')
+  if (!username) return res.status(400).json({ message: "Username required" });
+
+  try {
+    const user = await User.findOne({ username: new RegExp(username, 'i') })
+      .populate({
+        path: "posts",
+        populate: ["author", "tags"],
+      })
+      .exec();
+
+    if (!user)
+      return res.status(404).json({ message: `User ${username} not found` });
+
+    res.json(user.toObject({ getters: true }));
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
 };
+
 
 module.exports = {
   getUsers,
@@ -161,5 +179,5 @@ module.exports = {
   updateUser,
   handleFollow,
   getFriends,
-  getUserById
+  filterUserByName
 };

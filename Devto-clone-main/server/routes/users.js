@@ -23,7 +23,6 @@ router.route('/:userId/notifications/unread').get(notificationsController.getUnr
 
 router.route('/:userId/friends/').get(usersController.getFriends);
 
-
-router.route('/:userId').get(usersController.getUserById);
+router.route('/find/:username').get(usersController.filterUserByName);
 
 module.exports = router;
