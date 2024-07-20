@@ -19,8 +19,8 @@ export default function Messenger() {
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
-  
-  const [uploadedFileUrl, setUploadedFileUrl] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFileName, setSelectedFileName] = useState("");
 
   const socket = useRef();
   const scrollRef = useRef();
@@ -103,11 +103,33 @@ export default function Messenger() {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
+
+      // Upload file if a file is selected
+      let fileUrl = "";
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+
+        try {
+          const response = await axios.post(
+            "http://localhost:5000/upload",
+            formData
+          );
+          fileUrl = response.data.fileUrl;
+          setSelectedFile(null); // Reset the selected file after upload
+          setSelectedFileName(""); // Reset the selected file name after upload
+        } catch (error) {
+          console.error(error);
+          return; // Exit the function if the file upload fails
+        }
+      }
+
+      // Create the message object
       const message = {
         sender: user._id,
         text: newMessage,
         conversationId: currentChat._id,
-        fileUrl: uploadedFileUrl, // Include file URL
+        fileUrl, // Include the file URL if a file was uploaded
       };
 
       const receiverId = currentChat.members.find(
@@ -118,19 +140,18 @@ export default function Messenger() {
         senderId: user._id,
         receiverId,
         text: newMessage,
-        fileUrl: uploadedFileUrl, // Include file URL
+        fileUrl, // Include the file URL if a file was uploaded
       });
 
       try {
         const res = await axios.post("//localhost:5000/messages", message);
         setMessages([...messages, res.data]);
         setNewMessage("");
-        setUploadedFileUrl(""); // Reset file URL after sending
       } catch (err) {
         console.error(err);
       }
     },
-    [currentChat, messages, newMessage, user, uploadedFileUrl]
+    [currentChat, messages, newMessage, user, selectedFile]
   );
 
   const filterUsers = async (userName) => {
@@ -158,17 +179,8 @@ export default function Messenger() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      axios
-        .post("http://localhost:5000/upload", formData)
-        .then((response) => {
-          setUploadedFileUrl(response.data.fileUrl); // Store file URL
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      setSelectedFile(file);
+      setSelectedFileName(file.name);
     }
   };
 
@@ -213,7 +225,7 @@ export default function Messenger() {
                   className="chatMessageInput"
                   placeholder="Type a message..."
                   onChange={(e) => setNewMessage(e.target.value)}
-                  value={newMessage}
+                  value={selectedFileName ? selectedFileName : newMessage}
                 />
                 <button className="send-button" onClick={handleSubmit}>
                   <AiOutlineSend />

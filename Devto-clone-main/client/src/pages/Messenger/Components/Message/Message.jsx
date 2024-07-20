@@ -27,12 +27,12 @@ export default function Message({ message, own }) {
       <div className="messageTop">
         <img className="messageImg" src={userPictureUrl} alt="" />
         <div className="messageContent">
-          <p className="messageText">{message.text}</p>
+          {message.text && <p className="messageText">{message.text}</p>}
           {message.fileUrl && (
             <div className="file-attachment">
               {message.fileUrl.match(/\.(jpg|jpeg|png|gif)$/) ? (
                 <img
-                  src={message.fileUrl}
+                  src={`http://localhost:5000${message.fileUrl}`}
                   alt="Attachment"
                   className="attachmentImg"
                 />
