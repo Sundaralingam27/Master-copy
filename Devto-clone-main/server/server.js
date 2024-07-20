@@ -77,7 +77,9 @@ const upload = multer({ storage: storage });
 
 // Upload route
 app.post('/upload', upload.single('file'), (req, res) => {
-  res.send('File uploaded successfully.');
+  // Return the URL of the uploaded file
+  const fileUrl = `/uploads/${req.file.filename}`;
+  res.json({ fileUrl });
 });
 
 // Serve static files from 'uploads' directory

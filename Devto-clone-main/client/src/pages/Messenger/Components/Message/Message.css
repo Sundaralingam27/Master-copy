@@ -27,6 +27,7 @@
 .messageBottom {
   font-size: 12px;
   margin-top: 10px;
+  margin-bottom: 5px;
 }
 
 .message.own {
@@ -36,4 +37,19 @@
 .message.own .messageText {
   background-color: rgb(245, 241, 241);
   color: black;
+}
+
+.file-attachment {
+  margin-top: 5px;
+}
+
+.attachmentImg {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 5px;
+}
+
+.attachmentLink {
+  color: #007bff;
+  text-decoration: none;
 }

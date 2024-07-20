@@ -9,8 +9,8 @@ import ChatOnline from "./Components/ChatOnline/ChatOnline";
 import Conversation from "./Components/Conversations/Conversations";
 import Message from "./Components/Message/Message";
 import "./Messenger.css";
-import { FaPaperclip, FaSmile } from 'react-icons/fa';
-import { AiOutlineSend } from 'react-icons/ai';
+import { FaPaperclip, FaSmile } from "react-icons/fa";
+import { AiOutlineSend } from "react-icons/ai";
 
 export default function Messenger() {
   const [conversations, setConversations] = useState([]);
@@ -19,6 +19,8 @@ export default function Messenger() {
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  
+  const [uploadedFileUrl, setUploadedFileUrl] = useState("");
 
   const socket = useRef();
   const scrollRef = useRef();
@@ -105,6 +107,7 @@ export default function Messenger() {
         sender: user._id,
         text: newMessage,
         conversationId: currentChat._id,
+        fileUrl: uploadedFileUrl, // Include file URL
       };
 
       const receiverId = currentChat.members.find(
@@ -115,17 +118,19 @@ export default function Messenger() {
         senderId: user._id,
         receiverId,
         text: newMessage,
+        fileUrl: uploadedFileUrl, // Include file URL
       });
 
       try {
         const res = await axios.post("//localhost:5000/messages", message);
         setMessages([...messages, res.data]);
         setNewMessage("");
+        setUploadedFileUrl(""); // Reset file URL after sending
       } catch (err) {
         console.error(err);
       }
     },
-    [currentChat, messages, newMessage, user]
+    [currentChat, messages, newMessage, user, uploadedFileUrl]
   );
 
   const filterUsers = async (userName) => {
@@ -154,13 +159,14 @@ export default function Messenger() {
     const file = e.target.files[0];
     if (file) {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append("file", file);
 
-      axios.post('http://localhost:5000/upload', formData)
-        .then(response => {
-          console.log(response.data);
+      axios
+        .post("http://localhost:5000/upload", formData)
+        .then((response) => {
+          setUploadedFileUrl(response.data.fileUrl); // Store file URL
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
     }
@@ -210,7 +216,7 @@ export default function Messenger() {
                   value={newMessage}
                 />
                 <button className="send-button" onClick={handleSubmit}>
-                <AiOutlineSend />
+                  <AiOutlineSend />
                 </button>
               </div>
             </>
