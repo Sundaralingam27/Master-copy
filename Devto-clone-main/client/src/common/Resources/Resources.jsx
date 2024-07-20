@@ -48,19 +48,19 @@ const Resources = ({ saved }) => {
           </LinkWrapper>
         </Link>
 
-        <Link to={!saved && 'reading-list'}>
+        <Link to={!saved && '/reading-list'}>
           <LinkWrapper>
             <Image src='../../../assets/images/reading.png' />
             Reading List
           </LinkWrapper>
         </Link>
-        <Link to='messenger'>
+        <Link to='/messenger'>
           <LinkWrapper>
             <Image src='../../../assets/images/chat.png' />
             Messenger
           </LinkWrapper>
         </Link>
-        <Link to='tags'>
+        <Link to='/tags'>
           <LinkWrapper>
             <Image src='../../../assets/images/tags.png' />
             Tags
