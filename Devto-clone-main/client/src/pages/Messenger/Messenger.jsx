@@ -9,6 +9,8 @@ import ChatOnline from "./Components/ChatOnline/ChatOnline";
 import Conversation from "./Components/Conversations/Conversations";
 import Message from "./Components/Message/Message";
 import "./Messenger.css";
+import { FaPaperclip, FaSmile } from 'react-icons/fa';
+import { AiOutlineSend } from 'react-icons/ai';
 
 export default function Messenger() {
   const [conversations, setConversations] = useState([]);
@@ -17,15 +19,13 @@ export default function Messenger() {
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
-  
+
   const socket = useRef();
   const scrollRef = useRef();
   const currentUser = useSelector(selectCurrentUser);
   const { data: user } = useGetUserDashboardQuery(currentUser.username);
   const userId = currentUser?.id;
 
-  // Initialize socket connection and handle incoming messages
   useEffect(() => {
     socket.current = io("ws://localhost:5000");
     socket.current.on("getMessage", (data) => {
@@ -37,14 +37,15 @@ export default function Messenger() {
     });
   }, []);
 
-  // Add incoming message to current chat
   useEffect(() => {
-    if (arrivalMessage && currentChat?.members.includes(arrivalMessage.sender)) {
+    if (
+      arrivalMessage &&
+      currentChat?.members.includes(arrivalMessage.sender)
+    ) {
       setMessages((prev) => [...prev, arrivalMessage]);
     }
   }, [arrivalMessage, currentChat]);
 
-  // Handle user connection and online users
   useEffect(() => {
     if (user) {
       socket.current.emit("addUser", user._id);
@@ -65,12 +66,13 @@ export default function Messenger() {
     }
   }, [user]);
 
-  // Fetch conversations
   useEffect(() => {
     const fetchConversations = async () => {
       if (user) {
         try {
-          const res = await axios.get(`//localhost:5000/conversations/${userId}`);
+          const res = await axios.get(
+            `//localhost:5000/conversations/${userId}`
+          );
           setConversations(res.data);
         } catch (err) {
           console.error(err);
@@ -80,12 +82,13 @@ export default function Messenger() {
     fetchConversations();
   }, [user]);
 
-  // Fetch messages for the current chat
   useEffect(() => {
     const fetchMessages = async () => {
       if (currentChat) {
         try {
-          const res = await axios.get(`//localhost:5000/messages/${currentChat._id}`);
+          const res = await axios.get(
+            `//localhost:5000/messages/${currentChat._id}`
+          );
           setMessages(res.data);
         } catch (err) {
           console.error(err);
@@ -104,7 +107,9 @@ export default function Messenger() {
         conversationId: currentChat._id,
       };
 
-      const receiverId = currentChat.members.find((member) => member !== user._id);
+      const receiverId = currentChat.members.find(
+        (member) => member !== user._id
+      );
 
       socket.current.emit("sendMessage", {
         senderId: user._id,
@@ -145,6 +150,22 @@ export default function Messenger() {
     }
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      axios.post('http://localhost:5000/upload', formData)
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  };
+
   return (
     <div className="messenger">
       <div className="chatMenu">
@@ -173,14 +194,23 @@ export default function Messenger() {
                 ))}
               </div>
               <div className="chatBoxBottom">
-                <textarea
+                <input
+                  type="file"
+                  id="file-upload"
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
+                <label htmlFor="file-upload" className="file-icon">
+                  <FaPaperclip />
+                </label>
+                <input
                   className="chatMessageInput"
-                  placeholder="write something..."
+                  placeholder="Type a message..."
                   onChange={(e) => setNewMessage(e.target.value)}
                   value={newMessage}
-                ></textarea>
-                <button className="chatSubmitButton" onClick={handleSubmit}>
-                  Send
+                />
+                <button className="send-button" onClick={handleSubmit}>
+                <AiOutlineSend />
                 </button>
               </div>
             </>

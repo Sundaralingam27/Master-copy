@@ -1,69 +1,98 @@
 .messenger {
-    height: calc(100vh - 70px);
-    display: flex;
-    width: 100%;
+  height: calc(100vh - 70px);
+  display: flex;
+  width: 100%;
 }
 
 .chatMenu {
-    flex: 3.5;
+  flex: 3.5;
 }
 
-.chatMenuInput{
-    width: 90%;
-    padding: 10px 0;
-    border: none;
-    border-bottom: 1px solid gray;
+.chatMenuInput {
+  width: 90%;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid gray;
+  background: none;
 }
 .chatBox {
-    flex: 5.5;
+  flex: 5.5;
+  background-color: white;
+  border-radius: 10px;
 }
 
-.chatBoxWrapper{
-    display: flex;
-    flex-direction: column;
+.chatBoxWrapper {
+  display: flex;
+  flex-direction: column;
 }
 
-.chatBoxBottom{
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.chatBoxBottom {
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 20px;
+  position: relative;
 }
 
-.chatBoxTop{
-    height: 90%;
-    overflow-y: scroll;
-    padding-right: 10px;
+.chatBoxTop {
+  height: 85%;
+  overflow-y: scroll;
+  padding-right: 10px;
 }
 
-.chatMessageInput{
-    width: 80%;
-    height: 75px;
-    border: 1px solid black;
-    padding: 10px;
+.chatMessageInput {
+  width: 85%;
+  border: 1px solid #1877f2;
+  padding: 10px;
+  border-radius: 20px;
+  flex: 1;
+  margin: 0 10px;
+  background-color: #ffffff;
+  font-size: 16px;
 }
 
-.noConversationText{
-    font-size: 40px;
-    font-weight: bold;
+.noConversationText {
+  font-size: 40px;
+  font-weight: bold;
 }
 
-.chatSubmitButton{
-    width: 70px;
-    height: 40px;
-    border: none;
-    border-radius: 5px;
-    background-color: teal;
-    color: white;
-    cursor: pointer;
+.chatSubmitButton {
+  width: 70px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  background-color: teal;
+  color: white;
+  cursor: pointer;
 }
 
 .chatOnline {
-    flex: 3;
+  flex: 3;
 }
 
-.chatMenuWrapper, .chatBoxWrapper, .chatOnlineWrapper{
-    padding: 10px;
-    height: 90%;
-    background-color: white;
+.chatMenuWrapper,
+.chatBoxWrapper,
+.chatOnlineWrapper {
+  padding: 10px;
+  height: 100%;
+}
+
+.file-icon,
+.send-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+  font-size: 20px;
+}
+
+.send-button {
+  margin-left: 5px;
+  font-size: 35px;
+}
+
+.file-icon:hover,
+.send-button:hover {
+  color: #0056b3;
 }

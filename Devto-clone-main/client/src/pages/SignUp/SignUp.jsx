@@ -7,7 +7,6 @@ import OAuth from '../../common/OAuth';
 import RouteWrapper from '../../common/RouteWrapper';
 import { useSignUpMutation } from '../../core/features/auth/authApiSlice';
 import useBase64 from '../../hooks/useBase64';
-debugger;
 const SignUp = () => {
   const navigate = useNavigate();
 

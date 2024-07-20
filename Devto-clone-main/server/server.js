@@ -1,8 +1,10 @@
-require('dotenv').config();
+require('dotenv').config(); // Load environment variables at the top
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+const multer = require('multer'); // Ensure multer is installed and imported
+const path = require('path'); // Ensure path is imported
 const { createServer } = require('http');
 const socketHandlers = require('./utils/socket');
 
@@ -19,14 +21,14 @@ const app = express();
 const httpServer = createServer(app);
 
 (async () => {
-    try {
+  try {
         mongoose.connect(`mongodb+srv://udhayaraj22selvam:Laalini%401409@cluster0.iv2ss1x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`,
             dbConn  
         );
         console.log('Database connected successfully')
-    } catch (err) {
-        console.error(err);
-    }
+  } catch (err) {
+    console.error(err);
+  }
 })();
 
 // custom middleware logger
@@ -61,10 +63,31 @@ app.use('/tags', require('./routes/tags'));
 app.use('/conversations', require('./routes/conversation'));
 app.use('/messages', require('./routes/message'));
 
-mongoose.connection.once('open', () => {
-    const io = new Server(httpServer, { cors: corsOptions });
+// Multer setup for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Directory where files will be saved
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // File naming convention
+  },
+});
 
-    socketHandlers(io);
+const upload = multer({ storage: storage });
+
+// Upload route
+app.post('/upload', upload.single('file'), (req, res) => {
+  res.send('File uploaded successfully.');
+});
+
+// Serve static files from 'uploads' directory
+app.use('/uploads', express.static('uploads'));
+
+// Socket.io setup
+mongoose.connection.once('open', () => {
+  const io = new Server(httpServer, { cors: corsOptions });
+
+  socketHandlers(io);
 
     httpServer.listen(process.env.PORT || 5000);
 });
