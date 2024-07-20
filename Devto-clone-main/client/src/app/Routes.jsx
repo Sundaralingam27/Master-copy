@@ -23,7 +23,8 @@ import Layout from '../common/Layout';
 import NotFound from '../common/NotFound';
 import RequireAuth from '../common/RequireAuth/RequireAuth';
 
-import Messenger from '../pages/Messenger/Messenger'
+import Messenger from '../pages/Messenger/Messenger';
+import About from '../pages/About/About';
 
 const Routes = () => {
   const location = useLocation();
@@ -46,7 +47,7 @@ const Routes = () => {
             <Route path=':name' element={<Tag />} />
             <Route path='*' element={<NotFound />} />
           </Route>
-
+          <Route path='about' element={<About />} />
           <Route path=':username'>
             <Route index element={<Profile />} />
 

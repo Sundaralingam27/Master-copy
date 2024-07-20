@@ -29,10 +29,10 @@ const Resources = ({ saved }) => {
       {!isAuthed && (
         <DevCommunity>
           <DevHeading>
-            <span>DEV Community</span> is a community of 861,806 amazing developers
+            <span>DEV Community</span> is a dynamic platform where developers connect
           </DevHeading>
           <DevDesc>
-            We're a place where coders share, stay up-to-date and grow their careers.
+            We're a place where coders share knowledge, and advance their careers in a collaborative and supportive environment
           </DevDesc>
           <Buttons>
             <SignUp>Create account</SignUp>
@@ -72,7 +72,7 @@ const Resources = ({ saved }) => {
             FAQ
           </LinkWrapper>
         </Link>
-        <Link to=''>
+        <Link to='/about'>
           <LinkWrapper>
             <Image src='../../../assets/images/about.png' />
             About

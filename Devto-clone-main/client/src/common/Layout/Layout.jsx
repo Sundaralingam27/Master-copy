@@ -16,7 +16,7 @@ const Layout = () => {
         {authModal && <AuthModal />}
         <Outlet />
       </Wrapper>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
