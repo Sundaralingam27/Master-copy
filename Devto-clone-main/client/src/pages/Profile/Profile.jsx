@@ -1,22 +1,22 @@
-import { useEffect } from 'react';
-import { CgNotes } from 'react-icons/cg';
-import { FaBirthdayCake, FaHashtag, FaRegComment } from 'react-icons/fa';
-import { GiConsoleController } from 'react-icons/gi';
-import { HiLocationMarker } from 'react-icons/hi';
-import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import tw, { styled } from 'twin.macro';
-import FollowUser from '../../common/FollowUser/FollowUser';
-import LoadingSpinner from '../../common/LoadingSpinner';
-import NotFound from '../../common/NotFound/NotFound';
-import PostsList from '../../common/PostsList';
-import RouteWrapper from '../../common/RouteWrapper';
-import ShowMore from '../../common/ShowMore';
-import { selectCurrentUser } from '../../core/features/auth/authSlice';
-import { useGetUserQuery } from '../../core/features/users/usersApiSlice';
-import { formatDate } from '../../helpers/string';
-import { TrophyOutlined, StarOutlined, GiftOutlined } from '@ant-design/icons';
-import GamificationComponent from '../Dashboard/components/Gamification';
+import { useEffect } from "react";
+import { CgNotes } from "react-icons/cg";
+import { FaBirthdayCake, FaHashtag, FaRegComment } from "react-icons/fa";
+import { GiConsoleController } from "react-icons/gi";
+import { HiLocationMarker } from "react-icons/hi";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import tw, { styled } from "twin.macro";
+import FollowUser from "../../common/FollowUser/FollowUser";
+import LoadingSpinner from "../../common/LoadingSpinner";
+import NotFound from "../../common/NotFound/NotFound";
+import PostsList from "../../common/PostsList";
+import RouteWrapper from "../../common/RouteWrapper";
+import ShowMore from "../../common/ShowMore";
+import { selectCurrentUser } from "../../core/features/auth/authSlice";
+import { useGetUserQuery } from "../../core/features/users/usersApiSlice";
+import { formatDate } from "../../helpers/string";
+import { TrophyOutlined, StarOutlined, GiftOutlined } from "@ant-design/icons";
+import GamificationComponent from "../Dashboard/components/Gamification";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -27,7 +27,6 @@ const Profile = () => {
   });
 
   return (
-    
     <RouteWrapper>
       {isLoading ? (
         <LoadingSpinner />
@@ -36,30 +35,46 @@ const Profile = () => {
           <Card>
             <Avatar src={previewedUser.picture.url} />
             {previewedUser.username === currentUser.username ? (
-              <EditButton onClick={() => navigate('/customize')}>Edit profile</EditButton>
+              <EditButton onClick={() => navigate("/customize")}>
+                Edit profile
+              </EditButton>
             ) : (
-              <FollowUser currentUser={currentUser} previewedUser={previewedUser} />
+              <FollowUser
+                currentUser={currentUser}
+                previewedUser={previewedUser}
+              />
             )}
             <Name>{previewedUser.name}</Name>
-            <Bio>{previewedUser.bio || 'No bio'}</Bio>
+            <Bio>{previewedUser.bio || "No bio"}</Bio>
             <Other>
               <LocationWrapper>
                 <HiLocationMarker />
-                <Location>{previewedUser.location || 'Not determined yet'}</Location>
+                <Location>
+                  {previewedUser.location || "Not determined yet"}
+                </Location>
               </LocationWrapper>
               <CreatedAtWrapper>
                 <FaBirthdayCake />
-                <CreatedAt>Joined {formatDate(previewedUser.createdAt, false)}</CreatedAt>
+                <CreatedAt>
+                  Joined {formatDate(previewedUser.createdAt, false)}
+                </CreatedAt>
               </CreatedAtWrapper>
             </Other>
+            <div>
+              <GamificationComponent
+                previewedUser={previewedUser}
+              ></GamificationComponent>
+            </div>
             <Footer>
               <EducationWrapper>
                 <Title>Education</Title>
-                <Education>{previewedUser.education || 'Not determined yet'}</Education>
+                <Education>
+                  {previewedUser.education || "Not determined yet"}
+                </Education>
               </EducationWrapper>
               <WorkWrapper>
                 <Title>Work</Title>
-                <Work>{previewedUser.work || 'Not determined yet'}</Work>
+                <Work>{previewedUser.work || "Not determined yet"}</Work>
               </WorkWrapper>
             </Footer>
           </Card>
@@ -67,12 +82,17 @@ const Profile = () => {
             <LeftPortion>
               <BoxWrapper>
                 <Heading>Available for</Heading>
-                <BoxContent>{previewedUser.availableFor || 'Not determined yet'}</BoxContent>
+                <BoxContent>
+                  {previewedUser.availableFor || "Not determined yet"}
+                </BoxContent>
               </BoxWrapper>
               <BoxWrapper>
                 <Heading>Skills/Languages</Heading>
                 <BoxContent>
-                  <ShowMore text={previewedUser.skills || 'Not determined yet'} maxChars={300} />
+                  <ShowMore
+                    text={previewedUser.skills || "Not determined yet"}
+                    maxChars={300}
+                  />
                 </BoxContent>
               </BoxWrapper>
               <Stats>
@@ -99,28 +119,12 @@ const Profile = () => {
                   </StatContent>
                 </StatWrapper>
               </Stats>
-              {previewedUser.posts?.length > 0 && (
-                <div css={badgeItem}>
-                  <div css={tooltip}>
-                    <TrophyOutlined css={badgeIcon} />
-                    <span css={tooltipText}>Top Performer</span>
-                  </div>
-                </div>
-              )}
-              {previewedUser.comments?.length > 0 && (
-                <div css={badgeItem}>
-                  <div css={tooltip}>
-                    <StarOutlined css={badgeIcon} />
-                    <span css={tooltipText}>Best Commentator</span>
-                  </div>
-                </div>
-              )}
             </LeftPortion>
             <Posts>
               <PostsList
                 posts={previewedUser.posts}
                 toInvalidate={{
-                  type: 'User',
+                  type: "User",
                   id: previewedUser.id,
                   extra: { username },
                 }}

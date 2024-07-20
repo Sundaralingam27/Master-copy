@@ -1,5 +1,4 @@
 import { nanoid } from '@reduxjs/toolkit';
-import { useNavigate } from 'react-router-dom';
 import tw, { styled } from 'twin.macro';
 
 const Followers = ({ followers, navigate }) => {
@@ -20,13 +19,13 @@ const Followers = ({ followers, navigate }) => {
 
 const Wrapper = tw.div`flex gap-2 flex-wrap`;
 
-const User = tw.div`flex-[1 0 30%] min-w-[250px] max-w-[300px] flex flex-col gap-sm items-center cursor-pointer p-md rounded-md border border-light-gray`;
+const User = tw.div`flex-[1 0 30%] min-w-[250px] max-w-[300px] flex flex-col gap-sm items-center cursor-pointer p-md rounded-md border border-light-gray bg-white`;
 
 const Picture = tw.img`w-16 h-16 rounded-full`;
 
 const Info = tw.div``;
 
-const Username = tw.h3`text-blue`;
+const Username = tw.h3`text-[#1877f2]`;
 
 const Email = tw.h4`text-gray`;
 

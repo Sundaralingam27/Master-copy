@@ -47,7 +47,7 @@ const HashtagWrapper = styled.span`
 const Posts = tw.p`text-dark-gray ml-2`;
 
 const Tag = styled.div`
-  ${tw`flex-[1 0 30%] min-w-[250px] max-w-[300px] bg-lighter-gray py-6 px-4 relative overflow-hidden rounded-md [&>*:not(:first-child )]:mt-sm shadow-sm`}
+  ${tw`flex-[1 0 30%] min-w-[250px] max-w-[300px] bg-white py-6 px-4 relative overflow-hidden rounded-md [&>*:not(:first-child )]:mt-sm shadow-sm`}
 `;
 
 const Wrapper = tw.div`flex gap-2 flex-wrap`;

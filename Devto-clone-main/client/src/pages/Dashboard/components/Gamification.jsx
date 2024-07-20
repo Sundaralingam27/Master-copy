@@ -1,20 +1,19 @@
-import React from 'react';
-import { TrophyOutlined, StarOutlined, GiftOutlined } from '@ant-design/icons';
+import React from "react";
 
-const GamificationComponent = () => {
+const GamificationComponent = (user) => {
+  console.log(user, "user");
   return (
     <div className="gamification-container">
       <style>{`
         .gamification-container {
           padding: 20px;
-          background-color: #f0f2f5;
           border-radius: 8px;
         }
 
         .badge-container {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 20px;
+          display: flex;
+          gap: 30px;
+          align-items:center;
         }
 
         .badge-item {
@@ -51,31 +50,67 @@ const GamificationComponent = () => {
         }
 
         .badge-icon {
-          font-size: 36px;
-          color:red;
+          width:80px;
+          height:80px;
         }
       `}</style>
       <div className="badge-container">
-        <div className="badge-item">
-          <div className="tooltip">
-            <TrophyOutlined className="badge-icon" style={{ fontSize: '64px', color: '#ff8c00' }} />
-            <span className="tooltiptext">Top Performer</span>
+        {user.previewedUser && (
+          <div className="badge-item">
+            <div className="tooltip">
+              <img
+                src="../../../assets/images/trust.png"
+                className="badge-icon"
+              />
+              <span className="tooltiptext">Verified Member</span>
+            </div>
           </div>
-        </div>
-        <div className="badge-item">
-          <div className="tooltip">
-            <StarOutlined className="badge-icon"style={{ fontSize: '64px', color: '#ff8c00' }} />
-            <span className="tooltiptext">Best Man</span>
+        )}
+        {user.previewedUser.posts?.length > 0 && (
+          <div className="badge-item">
+            <div className="tooltip">
+              <img
+                src="../../../assets/images/post.png"
+                className="badge-icon"
+              />
+              <span className="tooltiptext">Tech Blogger</span>
+            </div>
           </div>
-        </div>
-        <div className="badge-item">
-          <div className="tooltip">
-            <GiftOutlined className="badge-icon" style={{ fontSize: '64px', color: '#ff8c00' }} />
-            <span className="tooltiptext">Won First Prize</span>
+        )}
+        {user.previewedUser.comments?.length > 0 && (
+          <div className="badge-item">
+            <div className="tooltip">
+              <img
+                src="../../../assets/images/comment.png"
+                className="badge-icon"
+              />
+              <span className="tooltiptext">Best Commentator</span>
+            </div>
           </div>
-        </div>
+        )}
+        {user.previewedUser.followedTags?.length > 0 && (
+          <div className="badge-item">
+            <div className="tooltip">
+              <img
+                src="../../../assets/images/hashtag.png"
+                className="badge-icon"
+              />
+              <span className="tooltiptext">Hashtag Aficionado</span>
+            </div>
+          </div>
+        )}
+        {user.previewedUser.following?.length > 0 && (
+          <div className="badge-item">
+            <div className="tooltip">
+              <img
+                src="../../../assets/images/followers.png"
+                className="badge-icon"
+              />
+              <span className="tooltiptext">Network Builder</span>
+            </div>
+          </div>
+        )}
       </div>
-      
     </div>
   );
 };

@@ -38,7 +38,7 @@ const Comments = tw.div`flex items-center gap-2`;
 
 const Wrapper = tw.div`flex flex-col gap-2`;
 
-const Post = tw.div`p-5 flex items-center justify-between rounded-md border border-light-gray`;
+const Post = tw.div`p-5 flex items-center justify-between rounded-md border border-light-gray bg-white`;
 
 const Title = tw.h3`w-1/3 cursor-pointer hover:text-blue`;
 

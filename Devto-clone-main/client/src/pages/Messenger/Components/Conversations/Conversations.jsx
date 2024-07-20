@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./conversations.css";
 
-export default function Conversation({ conversation, currentUser }) {
+export default function Conversation({ conversation, currentUser,isSelected }) {
   const [user, setUser] = useState(null);
   useEffect(() => {
     const friendId = conversation.members.find((m) => m !== currentUser._id);
@@ -20,7 +20,7 @@ export default function Conversation({ conversation, currentUser }) {
     getUser();
   }, [currentUser, conversation]);
   return (
-    <div className="conversation">
+    <div className="conversation" style={{ backgroundColor: isSelected ? 'lightgray' : '' }}>
       <img className="conversationImg" src={user?.picture?.url} alt="" />
       <span className="conversationName">{user?.username}</span>
     </div>

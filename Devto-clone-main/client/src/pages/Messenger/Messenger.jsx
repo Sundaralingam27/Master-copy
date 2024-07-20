@@ -195,7 +195,7 @@ export default function Messenger() {
           />
           {conversations.map((c) => (
             <div key={c._id} onClick={() => setCurrentChat(c)}>
-              <Conversation conversation={c} currentUser={user} />
+              <Conversation conversation={c} currentUser={user} isSelected={currentChat && currentChat._id === c._id}/>
             </div>
           ))}
         </div>
