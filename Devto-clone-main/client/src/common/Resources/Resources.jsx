@@ -66,10 +66,10 @@ const Resources = ({ saved }) => {
             Tags
           </LinkWrapper>
         </Link>
-        <Link to=''>
+        <Link to='collab'>
           <LinkWrapper>
-            <Image src='../../../assets/images/faq.png' />
-            FAQ
+            <Image src='../../../assets/images/collab-code.png' />
+            Co-Code
           </LinkWrapper>
         </Link>
         <Link to='/about'>
