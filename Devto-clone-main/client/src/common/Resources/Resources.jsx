@@ -72,20 +72,19 @@ const Resources = ({ saved }) => {
             Co-Code
           </LinkWrapper>
         </Link>
+        <Link to='leaderboard'>
+          <LinkWrapper>
+            <Image src='../../../assets/images/leaderboard.png' />
+            LeaderBoard
+          </LinkWrapper>
+        </Link>
         <Link to='/about'>
           <LinkWrapper>
             <Image src='../../../assets/images/about.png' />
             About
           </LinkWrapper>
         </Link>
-        <Link to=''>
-          <LinkWrapper>
-            <Image src='../../../assets/images/contact.jpg' />
-            Contact
-          </LinkWrapper>
-        </Link>
       </PublicLinks>
-      <Social />
       <OtherLinks>
         <Heading>Other</Heading>
         <Link to=''>

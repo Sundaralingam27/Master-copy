@@ -27,6 +27,7 @@ import Messenger from '../pages/Messenger/Messenger';
 import About from '../pages/About/About';
 import Collab from '../pages/Collab/Collab';
 import EditorPage from '../pages/EditorPage/EditorPage';
+import LeaderBoard  from '../pages/LeaderBoard/LeaderBoard';
 
 const Routes = () => {
   const location = useLocation();
@@ -82,6 +83,7 @@ const Routes = () => {
             <Route path='messenger' element={<Messenger />} />
             <Route path='collab' element={<Collab />} />
             <Route path='/editor/:roomId' element={<EditorPage/>}/>
+            <Route path='leaderboard' element={<LeaderBoard/>}/>
           </Route>
 
           <Route path='*' element={<NotFound />} />
