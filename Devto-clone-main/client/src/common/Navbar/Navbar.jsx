@@ -1,32 +1,33 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import { useContext, useEffect, useState } from 'react';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { IoSearch } from 'react-icons/io5';
-import { RiNotification3Line } from 'react-icons/ri';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import tw, { styled, theme } from 'twin.macro';
-import profileMenu from '../../animations/profileMenu';
-import SocketContext from '../../context/SocketContext';
-import { selectCurrentUser } from '../../core/features/auth/authSlice';
-import { useLazyGetUnreadNotificationsQuery } from '../../core/features/users/usersApiSlice';
-import { preventScroll } from '../../helpers/body';
-import useBreakpoint from '../../hooks/useBreakpoint';
-import useRequireAuth from '../../hooks/useRequireAuth';
-import useToast from '../../hooks/useToast';
-import useToggle from '../../hooks/useToggle';
-import MobileMenu from './components/MobileMenu';
-import Search from './components/Search';
+import { AnimatePresence, motion } from "framer-motion";
+import { useContext, useEffect, useState } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoSearch } from "react-icons/io5";
+import { RiNotification3Line } from "react-icons/ri";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import tw, { styled, theme } from "twin.macro";
+import profileMenu from "../../animations/profileMenu";
+import SocketContext from "../../context/SocketContext";
+import { selectCurrentUser } from "../../core/features/auth/authSlice";
+import { useLazyGetUnreadNotificationsQuery } from "../../core/features/users/usersApiSlice";
+import { preventScroll } from "../../helpers/body";
+import useBreakpoint from "../../hooks/useBreakpoint";
+import useRequireAuth from "../../hooks/useRequireAuth";
+import useToast from "../../hooks/useToast";
+import useToggle from "../../hooks/useToggle";
+import MobileMenu from "./components/MobileMenu";
+import Search from "./components/Search";
 
 const Navbar = () => {
   const currentUser = useSelector(selectCurrentUser);
   const { isAuthed } = useRequireAuth();
   const { socket } = useContext(SocketContext);
-  const isMobile = useBreakpoint(theme`screens.mob.max`.replace('px', ''));
+  const isMobile = useBreakpoint(theme`screens.mob.max`.replace("px", ""));
   const [profileMenuOpen, toggleProfileMenuOpen] = useToggle(false);
   const [mobileSearch, toggleMobileSearch] = useToggle(false);
   const [mobileMenu, toggleMobileMenu] = useToggle(false);
-  const [trigger, { data: unreadNotifications }] = useLazyGetUnreadNotificationsQuery();
+  const [trigger, { data: unreadNotifications }] =
+    useLazyGetUnreadNotificationsQuery();
   const createToast = useToast();
   preventScroll(mobileMenu);
 
@@ -36,14 +37,17 @@ const Navbar = () => {
 
   useEffect(() => {
     getUnreadNotifications();
-    socket?.on('notificationReceived', ({ sender, receiverUsername, type, reactionType, post }) => {
-      createToast({ sender, receiverUsername, type, reactionType, post });
-      setTimeout(() => {
-        getUnreadNotifications();
-      }, 1000);
-    });
+    socket?.on(
+      "notificationReceived",
+      ({ sender, receiverUsername, type, reactionType, post }) => {
+        createToast({ sender, receiverUsername, type, reactionType, post });
+        setTimeout(() => {
+          getUnreadNotifications();
+        }, 1000);
+      }
+    );
 
-    return () => socket.off('notificationReceived');
+    return () => socket.off("notificationReceived");
   }, []);
 
   return (
@@ -56,10 +60,12 @@ const Navbar = () => {
             </HamburgerIcon>
           )}
           <DevIcon>
-            <Image src='../../assets/images/dev-unofficial.png' />
+            <Image src="../../assets/images/devveb logo.png" />
           </DevIcon>
           {isMobile || <Search />}
-          {isMobile && mobileMenu && <MobileMenu toggleMobileMenu={toggleMobileMenu} />}
+          {isMobile && mobileMenu && (
+            <MobileMenu toggleMobileMenu={toggleMobileMenu} />
+          )}
         </LeftSide>
         <RightSide>
           {isAuthed ? (
@@ -69,38 +75,52 @@ const Navbar = () => {
                   <IoSearch />
                 </SearchIcon>
               ) : (
-                <NewPost to='post'>Create Post</NewPost>
+                <NewPost to="post">Create Post</NewPost>
               )}
               <NotificationIcon>
                 <RiNotification3Line />
-                {unreadNotifications?.length > 0 && <Count>{unreadNotifications.length}</Count>}
+                {unreadNotifications?.length > 0 && (
+                  <Count>{unreadNotifications.length}</Count>
+                )}
               </NotificationIcon>
-              <Avatar src={currentUser.picture?.url} onClick={toggleProfileMenuOpen} />
+              <Avatar
+                src={currentUser.picture?.url}
+                onClick={toggleProfileMenuOpen}
+              />
               <AnimatePresence>
                 {profileMenuOpen && (
-                  <ProfileMenu variants={profileMenu} initial='initial' animate='shown' exit='exit'>
+                  <ProfileMenu
+                    variants={profileMenu}
+                    initial="initial"
+                    animate="shown"
+                    exit="exit"
+                  >
                     <ListItem>
                       <Link to={`/${currentUser.username}`}>
                         <Name>{currentUser.name}</Name>
                         <UserGmail>
-                          @{currentUser.email.slice(0, currentUser.email.indexOf('@'))}
+                          @
+                          {currentUser.email.slice(
+                            0,
+                            currentUser.email.indexOf("@")
+                          )}
                         </UserGmail>
                       </Link>
                     </ListItem>
                     <ListItem>
-                      <Link to='dashboard'>Dashboard</Link>
+                      <Link to="dashboard">Dashboard</Link>
                     </ListItem>
                     <ListItem>
-                      <Link to='post'>Create Post</Link>
+                      <Link to="post">Create Post</Link>
                     </ListItem>
                     <ListItem>
-                      <Link to='readinglist'>Reading list</Link>
+                      <Link to="readinglist">Reading list</Link>
                     </ListItem>
                     <ListItem>
-                      <Link to='customize'>Settings</Link>
+                      <Link to="customize">Settings</Link>
                     </ListItem>
                     <ListItem>
-                      <Link to='/auth/confirm/logout-account'>Sign Out</Link>
+                      <Link to="/auth/confirm/logout-account">Sign Out</Link>
                     </ListItem>
                   </ProfileMenu>
                 )}
@@ -138,7 +158,7 @@ const HamburgerIcon = tw.div`rounded-md text-black p-1 hover:(text-blue bg-light
 const SearchIcon = tw.div`rounded-md text-black p-1 hover:(text-blue bg-light-blue) cursor-pointer [& svg]:text-lg`;
 
 const DevIcon = styled(Link).attrs({
-  to: '/',
+  to: "/",
 })`
   svg {
     font-size: 2.5rem;
@@ -152,7 +172,7 @@ const NewPost = styled(Link)`
 `;
 
 const NotificationIcon = styled(Link).attrs({
-  to: 'notifications',
+  to: "notifications",
 })`
   ${tw`rounded-md text-black p-1 hover:(text-blue bg-light-blue)`}
   position: relative;
@@ -168,13 +188,13 @@ const Avatar = styled.img`
 `;
 
 const Login = styled(Link).attrs({
-  to: 'auth/login',
+  to: "auth/login",
 })`
   ${tw`rounded-md text-black py-2 px-3 hover:(text-blue bg-light-blue)`}
 `;
 
 const SignUp = styled(Link).attrs({
-  to: 'auth/new',
+  to: "auth/new",
 })`
   ${tw`rounded-md border border-solid border-white py-2 px-3 text-blue bg-white border-blue hover:(text-white bg-blue border-blue)`}
 `;
