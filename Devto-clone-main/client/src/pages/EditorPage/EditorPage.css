@@ -1,51 +1,64 @@
 .mainWrap {
-    display: grid;
-    grid-template-columns: 230px 1fr;
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  height:500px;
+  width: 100%;
 }
 .aside {
-    background: #1c1e29;
-    padding: 16px;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
+  background: #1c1e29;
+  padding: 16px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
 }
 .asideInner {
-    flex: 1;
+  flex: 1;
 }
 
 .clientsList {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px
 }
 
 .client {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    font-weight: bold;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-weight: bold;
 }
 .userName {
-    margin-top: 10px;
-}
-
-.logo {
-    border-bottom: 1px solid #424242;
-    padding-bottom: 10px;
-}
-
-.logoImage {
-    height: 60px;
+  margin-top: 10px;
 }
 
 .leaveBtn {
-    width: 100%;
-    margin-top: 20px;
+  width: 100%;
+  margin-top: 20px;
 }
-.CodeMirror {
-    min-height: calc(100vh - 20px);
-    font-size: 20px;
-    line-height: 1.6;
-    padding-top: 20px;
+
+.editorWrap {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
 }
+
+.copyBtn {
+  background: white;
+  color: black;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 5px;
+}
+
+.leaveBtn {
+  background: #3b49df;
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 5px;
+}
+

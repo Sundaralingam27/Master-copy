@@ -7,10 +7,8 @@ import "codemirror/addon/edit/closetag";
 import "codemirror/addon/edit/closebrackets";
 
 const Editor = ({ socketRef, roomId, onCodeChange }) => {
-  console.log(socketRef,'scoket')
-  console.log(roomId,'roomId')
-  console.log(onCodeChange,'onCodeChange')
   const editorRef = useRef(null);
+
   useEffect(() => {
     async function init() {
       editorRef.current = Codemirror.fromTextArea(
@@ -29,7 +27,7 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
         const code = instance.getValue();
         onCodeChange(code);
         if (origin !== "setValue") {
-          socketRef.current.emit('code-change', {
+          socketRef.current.emit("code-change", {
             roomId,
             code,
           });
@@ -37,20 +35,28 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
       });
     }
     init();
-  }, []);
+
+    return () => {
+      if (editorRef.current) {
+        editorRef.current.toTextArea();
+      }
+    };
+  }, [onCodeChange, roomId, socketRef]);
 
   useEffect(() => {
     if (socketRef.current) {
-      socketRef.current.on('code-change', ({ code }) => {
-        if (code !== null) {
+      const handleCodeChange = ({ code }) => {
+        if (code !== null && editorRef.current.getValue() !== code) {
           editorRef.current.setValue(code);
         }
-      });
-    }
+      };
 
-    return () => {
-      socketRef.current.off('code-change');
-    };
+      socketRef.current.on("code-change", handleCodeChange);
+
+      return () => {
+        socketRef.current.off("code-change", handleCodeChange);
+      };
+    }
   }, [socketRef.current]);
 
   return <textarea id="realtimeEditor"></textarea>;

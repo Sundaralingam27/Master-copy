@@ -19,6 +19,14 @@ export default function LeaderBoard() {
                 user?.followedTags?.length > 0,
                 user?.following?.length > 0,
               ].filter(Boolean).length,
+              points:
+                [
+                  user,
+                  user?.posts?.length > 0,
+                  user?.comments?.length > 0,
+                  user?.followedTags?.length > 0,
+                  user?.following?.length > 0,
+                ].filter(Boolean).length * 10, 
             }))
             .sort((a, b) => b.badgeCount - a.badgeCount);
 
@@ -41,6 +49,7 @@ export default function LeaderBoard() {
               <th>POSITION</th>
               <th>USER</th>
               <th>ACHIEVEMENT BADGES</th>
+              <th>POINTS</th>
             </tr>
           </thead>
           <tbody>
@@ -65,8 +74,9 @@ export default function LeaderBoard() {
                     <div className="badge-item">
                       <div className="tooltip">
                         <img
-                          src="../../../assets/images/trust.png"
+                          src="/assets/images/trust.png"
                           className="badge-icon"
+                          alt="Verified Member"
                         />
                         <span className="tooltiptext">Verified Member</span>
                       </div>
@@ -75,7 +85,7 @@ export default function LeaderBoard() {
                       <div className="badge-item">
                         <div className="tooltip">
                           <img
-                            src="../../../assets/images/post.png"
+                            src="/assets/images/post.png"
                             className="badge-icon"
                             alt="Tech Blogger"
                           />
@@ -87,7 +97,7 @@ export default function LeaderBoard() {
                       <div className="badge-item">
                         <div className="tooltip">
                           <img
-                            src="../../../assets/images/comment.png"
+                            src="/assets/images/comment.png"
                             className="badge-icon"
                             alt="Best Commentator"
                           />
@@ -99,7 +109,7 @@ export default function LeaderBoard() {
                       <div className="badge-item">
                         <div className="tooltip">
                           <img
-                            src="../../../assets/images/hashtag.png"
+                            src="/assets/images/hashtag.png"
                             className="badge-icon"
                             alt="Hashtag Aficionado"
                           />
@@ -113,7 +123,7 @@ export default function LeaderBoard() {
                       <div className="badge-item">
                         <div className="tooltip">
                           <img
-                            src="../../../assets/images/followers.png"
+                            src="/assets/images/followers.png"
                             className="badge-icon"
                             alt="Network Builder"
                           />
@@ -122,6 +132,9 @@ export default function LeaderBoard() {
                       </div>
                     )}
                   </div>
+                </td>
+                <td className="points">
+                  <h1>{user.points}</h1>
                 </td>
               </tr>
             ))}

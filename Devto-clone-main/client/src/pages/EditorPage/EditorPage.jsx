@@ -2,6 +2,7 @@ import "./EditorPage.css";
 import React, { useState, useRef, useEffect } from "react";
 import toast from "react-hot-toast";
 import Editor from "./Components/Editor/Editor";
+import Client from "./Components/Client/Client";
 import {
   useLocation,
   useNavigate,
@@ -20,13 +21,12 @@ export default function EditorPage() {
 
   const initSocket = async () => {
     const options = {
-      'force new connection': true,
-      reconnectionAttempt: 'Infinity',
+      "force new connection": true,
+      reconnectionAttempts: "Infinity",
       timeout: 10000,
-      transports: ['websocket'],
-  };
-    const socket = io("ws://localhost:5000",options);
-    return socket;
+      transports: ["websocket"],
+    };
+    return io("ws://localhost:5000", options);
   };
 
   useEffect(() => {
@@ -41,43 +41,41 @@ export default function EditorPage() {
         reactNavigator("/");
       }
 
-      socketRef.current.emit('join', {
+      socketRef.current.emit("join-room", {
         roomId,
         username: location.state?.username,
       });
 
-
-      // Listening for joined event
-      socketRef.current.on(
-        'joined',
-        ({ clients, username, socketId }) => {
-          if (username !== location.state?.username) {
-            toast.success(`${username} joined the room.`);
-            console.log(`${username} joined`);
-          }
-          setClients(clients);
-          socketRef.current.emit('sync-code', {
-            code: codeRef.current,
-            socketId,
-          });
+      socketRef.current.on("joined-room", ({ clients, username, socketId }) => {
+        if (username !== location.state?.username) {
+          toast.success(`${username} joined the room.`);
+          console.log(`${username} joined`);
         }
-      );
-
-      // Listening for disconnected
-      socketRef.current.on('disconnected', ({ socketId, username }) => {
-        toast.success(`${username} left the room.`);
-        setClients((prev) => {
-          return prev.filter((client) => client.socketId !== socketId);
+        setClients(clients);
+        socketRef.current.emit("sync-code", {
+          code: codeRef.current,
+          socketId,
         });
       });
+
+      socketRef.current.on("disconnected", ({ socketId, username }) => {
+        toast.success(`${username} left the room.`);
+        setClients((prev) =>
+          prev.filter((client) => client.socketId !== socketId)
+        );
+      });
     };
+
     init();
+
     return () => {
-      socketRef.current.disconnect();
-      socketRef.current.off('joined');
-      socketRef.current.off('disconnected');
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current.off("joined");
+        socketRef.current.off("disconnected");
+      }
     };
-  }, []);
+  }, [reactNavigator, roomId, location.state?.username]);
 
   async function copyRoomId() {
     try {
@@ -101,9 +99,6 @@ export default function EditorPage() {
     <div className="mainWrap">
       <div className="aside">
         <div className="asideInner">
-          <div className="logo">
-            <img className="logoImage" src="../../assets/images/collab-code.png" alt="logo" />
-          </div>
           <h3>Connected</h3>
           <div className="clientsList">
             {clients.map((client) => (

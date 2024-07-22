@@ -13,6 +13,8 @@ const getUser = (userId) => {
   return onlineUsers.find((user) => user.userId === userId);
 };
 
+const userSocketMap = {};
+
 const socketHandlers = (io) => {
   return io.on("connection", (socket) => {
     const handler = (sender, receiver, { type, reactionType, post }) => {
@@ -28,6 +30,18 @@ const socketHandlers = (io) => {
       }
     };
 
+    const getAllConnectedClients = (roomId) => {
+      // Map
+      return Array.from(io.sockets.adapter.rooms.get(roomId) || []).map(
+        (socketId) => {
+          return {
+            socketId,
+            username: userSocketMap[socketId],
+          };
+        }
+      );
+    };
+
     socket.on("join", (userId) => {
       addUser(userId, socket.id);
       io.emit("getUsers", onlineUsers);
@@ -37,7 +51,7 @@ const socketHandlers = (io) => {
       addUser(userId, socket.id);
       io.emit("getUsers", onlineUsers);
     });
-  
+
     socket.on("follow", ({ sender, receiver }) => {
       handler(sender, receiver, { type: "follow" });
     });
@@ -67,10 +81,45 @@ const socketHandlers = (io) => {
       }
     });
 
+    socket.on("join-room", ({ roomId, username }) => {
+      userSocketMap[socket.id] = username;
+      socket.join(roomId);
+      const clients = getAllConnectedClients(roomId);
+      console.log(clients,'clients emit')
+      clients.forEach(({ socketId }) => {
+        io.to(socketId).emit("joined-room", {
+          clients,
+          username,
+          socketId: socket.id,
+        });
+      });
+    });
+
+    socket.on("code-change", ({ roomId, code }) => {
+      socket.in(roomId).emit("code-change", { code });
+    });
+
+    socket.on("sync-code", ({ socketId, code }) => {
+      io.to(socketId).emit("code-change", { code });
+    });
+
     socket.on("disconnect", () => {
       removeUser(socket.id);
       io.emit("getUsers", onlineUsers);
     });
+
+    socket.on('disconnecting', () => {
+      const rooms = [...socket.rooms];
+      rooms.forEach((roomId) => {
+          socket.in(roomId).emit("disconnected", {
+              socketId: socket.id,
+              username: userSocketMap[socket.id],
+          });
+      });
+      delete userSocketMap[socket.id];
+      socket.leave();
+  });
+
   });
 };
 
