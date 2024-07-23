@@ -16,6 +16,7 @@
         "axios": "^1.7.2",
         "caniuse-lite": "^1.0.30001607",
         "codemirror": "^5.65.2",
+        "core-js-pure": "^3.37.1",
         "easymde": "^2.18.0",
         "framer-motion": "^6.5.1",
         "gapi-script": "^1.2.0",
