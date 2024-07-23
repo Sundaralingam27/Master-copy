@@ -1,24 +1,26 @@
-import { nanoid } from '@reduxjs/toolkit';
-import { useEffect } from 'react';
-import { RiSettingsLine } from 'react-icons/ri';
-import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import tw, { styled } from 'twin.macro';
-import { selectCurrentUser } from '../../core/features/auth/authSlice';
+import { nanoid } from "@reduxjs/toolkit";
+import { useEffect } from "react";
+import { RiSettingsLine } from "react-icons/ri";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import tw, { styled } from "twin.macro";
+import { selectCurrentUser } from "../../core/features/auth/authSlice";
 import {
   useGetNumTagsQuery,
   useLazyGetFollowingTagsQuery,
-} from '../../core/features/tags/tagsApiSlice';
-import useRequireAuth from '../../hooks/useRequireAuth';
-import Hashtag from '../Hashtag';
-import Social from '../Social';
+} from "../../core/features/tags/tagsApiSlice";
+import useRequireAuth from "../../hooks/useRequireAuth";
+import Hashtag from "../Hashtag";
+import Social from "../Social";
 
 const Resources = ({ saved }) => {
   const navigate = useNavigate();
   const { isAuthed } = useRequireAuth();
   const { id: userId } = useSelector(selectCurrentUser);
   const [trigger, { data: followingTags }] = useLazyGetFollowingTagsQuery();
-  const { data: tags } = useGetNumTagsQuery(null, { refetchOnMountOrArgChange: true });
+  const { data: tags } = useGetNumTagsQuery(null, {
+    refetchOnMountOrArgChange: true,
+  });
 
   useEffect(() => {
     if (isAuthed) trigger({ userId });
@@ -29,10 +31,12 @@ const Resources = ({ saved }) => {
       {!isAuthed && (
         <DevCommunity>
           <DevHeading>
-            <span>DEV Community</span> is a dynamic platform where developers connect
+            <span>DEV Community</span> is a dynamic platform where developers
+            connect
           </DevHeading>
           <DevDesc>
-            We're a place where coders share knowledge, and advance their careers in a collaborative and supportive environment
+            We're a place where coders share knowledge, and advance their
+            careers in a collaborative and supportive environment
           </DevDesc>
           <Buttons>
             <SignUp>Create account</SignUp>
@@ -41,67 +45,73 @@ const Resources = ({ saved }) => {
         </DevCommunity>
       )}
       <PublicLinks>
-        <Link to='/'>
+        <Link to="/">
           <LinkWrapper>
-            <Image src='../../../assets/images/home.png' />
+            <Image src="../../../assets/images/home.png" />
             Home
           </LinkWrapper>
         </Link>
 
-        <Link to={!saved && '/reading-list'}>
+        <Link to={!saved && "/reading-list"}>
           <LinkWrapper>
-            <Image src='../../../assets/images/reading.png' />
+            <Image src="../../../assets/images/reading.png" />
             Reading List
           </LinkWrapper>
         </Link>
-        <Link to='/messenger'>
+        <Link to="/messenger">
           <LinkWrapper>
-            <Image src='../../../assets/images/chat.png' />
+            <Image src="../../../assets/images/chat.png" />
             Messenger
           </LinkWrapper>
         </Link>
-        <Link to='/tags'>
+        <Link to="/tags">
           <LinkWrapper>
-            <Image src='../../../assets/images/tags.png' />
+            <Image src="../../../assets/images/tags.png" />
             Tags
           </LinkWrapper>
         </Link>
-        <Link to='collab'>
+        <Link to="collab">
           <LinkWrapper>
-            <Image src='../../../assets/images/collab-code.png' />
+            <Image src="../../../assets/images/collab-code.png" />
             Co-Code
           </LinkWrapper>
         </Link>
-        <Link to='leaderboard'>
+        <Link to="quiz">
           <LinkWrapper>
-            <Image src='../../../assets/images/leaderboard.png' />
+            <Image src="../../../assets/images/quiz.png" />
+            Dev-challenges
+          </LinkWrapper>
+        </Link>
+        <Link to="leaderboard">
+          <LinkWrapper>
+            <Image src="../../../assets/images/leaderboard.png" />
             LeaderBoard
           </LinkWrapper>
         </Link>
-        <Link to='/about'>
+        <Link to="/about">
           <LinkWrapper>
-            <Image src='../../../assets/images/about.png' />
+            <Image src="../../../assets/images/about.png" />
             About
           </LinkWrapper>
         </Link>
       </PublicLinks>
       <OtherLinks>
         <Heading>Other</Heading>
-        <Link to=''>
+        <Link to="">
           <LinkWrapper>
-            <Image src='../../../assets/images/code-of-conduct.png' />
+            <Image src="../../../assets/images/code-of-conduct.png" />
             Code of Conduct
           </LinkWrapper>
         </Link>
-        <Link to=''>
+        <Link to="">
           <LinkWrapper>
-            <Image src='../../../assets/images/privacy-policy.png' />
+            <Image src="../../../assets/images/privacy-policy.png" />
             Privacy Policy
           </LinkWrapper>
         </Link>
-        <Link to=''>
+        <Link to="">
           <LinkWrapper>
-            <Image src='../../../assets/images/terms-of-use.png' />
+            <Image src="../../../assets/images/terms-of-use.png" />
             Terms of Use
           </LinkWrapper>
         </Link>
@@ -113,12 +123,12 @@ const Resources = ({ saved }) => {
               <TagsHeading>My Tags</TagsHeading>
               <Settings>
                 <LinkWrapper>
-                  <RiSettingsLine onClick={() => navigate('/customize')} />
+                  <RiSettingsLine onClick={() => navigate("/customize")} />
                 </LinkWrapper>
               </Settings>
             </Header>
             <SubscribedTags>
-              {followingTags?.map(tag => (
+              {followingTags?.map((tag) => (
                 <Link key={nanoid()} to={`/tags/${tag.name}`}>
                   <LinkWrapper>
                     <Hashtag />
@@ -137,7 +147,7 @@ const Resources = ({ saved }) => {
               </Header>
             )}
             <PopularTags>
-              {tags?.map(tag => (
+              {tags?.map((tag) => (
                 <Link key={nanoid()} to={`/tags/${tag.name}`}>
                   <LinkWrapper>
                     <Hashtag />
@@ -170,13 +180,13 @@ const DevCommunity = styled.div`
 const Buttons = tw.div`flex flex-col text-center gap-2`;
 
 const Login = styled(Link).attrs({
-  to: 'auth/login',
+  to: "auth/login",
 })`
   ${tw`w-full rounded-md text-black py-2 px-3 hover:(text-blue bg-light-blue)`}
 `;
 
 const SignUp = styled(Link).attrs({
-  to: 'auth/new',
+  to: "auth/new",
 })`
   ${tw`w-full rounded-md border border-solid border-white py-2 px-3 text-blue bg-white border-blue hover:(text-white bg-blue border-blue)`}
 `;
@@ -193,7 +203,7 @@ const PublicLinks = styled.div``;
 
 const OtherLinks = styled.div``;
 
-const Image = styled.img.attrs({ width: '24px' })``;
+const Image = styled.img.attrs({ width: "24px" })``;
 
 const Heading = tw.h3`text-black mt-3 mb-2 px-3`;
 

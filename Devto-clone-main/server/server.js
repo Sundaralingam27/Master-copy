@@ -1,4 +1,4 @@
-require('dotenv').config(); // Load environment variables at the top
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -21,14 +21,14 @@ const app = express();
 const httpServer = createServer(app);
 
 (async () => {
-  try {
-        mongoose.connect(`mongodb+srv://udhayaraj22selvam:Laalini%401409@cluster0.iv2ss1x.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`,
+    try {
+        mongoose.connect(`mongodb+srv://sundarsuhhas:12345@cluster0.g3rfwot.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`,
             dbConn  
         );
         console.log('Database connected successfully')
-  } catch (err) {
-    console.error(err);
-  }
+    } catch (err) {
+        console.error(err);
+    }
 })();
 
 // custom middleware logger
@@ -87,9 +87,9 @@ app.use('/uploads', express.static('uploads'));
 
 // Socket.io setup
 mongoose.connection.once('open', () => {
-  const io = new Server(httpServer, { cors: corsOptions });
+    const io = new Server(httpServer, { cors: corsOptions });
 
-  socketHandlers(io);
+    socketHandlers(io);
 
     httpServer.listen(process.env.PORT || 5000);
 });
