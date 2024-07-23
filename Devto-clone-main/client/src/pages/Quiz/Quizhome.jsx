@@ -1,23 +1,15 @@
-import "./Quizhome.css";
+//import "./Quizhome.css";
 import tw, { styled } from "twin.macro";
 
-export default function About() {
+export default function Quizhome() {
   return (
-    <div className="about-container">
-      <h1>About Dev</h1>
+    <div className="Quiz-container">
       <img
-        className="about-image"
-        src="../../../assets/images/about.jpg"
+        className="Quiz-image"
+        src="../../../assets/images/challenges.png"
         alt=""
       />
-      <p>
-        DEV Community is a dynamic space where developers from all backgrounds
-        come together to share insights, stay informed, and advance their
-        careers. Our platform fosters collaboration and learning, offering
-        valuable resources and a supportive network to help coders grow
-        professionally. We are dedicated to creating a thriving environment
-        where developers can connect, innovate, and succeed.
-      </p>
+      <h1>Welcome to Dev challenges!</h1>
     </div>
   );
 }

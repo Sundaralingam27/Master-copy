@@ -52,6 +52,7 @@ const Routes = () => {
             <Route path="*" element={<NotFound />} />
           </Route>
           <Route path="about" element={<About />} />
+          <Route path="Quiz" element={<Quiz />} />
           <Route path=":username">
             <Route index element={<Profile />} />
 
