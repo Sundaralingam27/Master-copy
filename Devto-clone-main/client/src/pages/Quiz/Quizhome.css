@@ -56,3 +56,12 @@
 .phpimage{
   margin-bottom: 100px;
 }
+
+.challenge-btn{
+  border: 1px solid;
+  font-size: 12px;
+  margin-left: 50px;
+  background: white;
+  padding: 5px;
+  border-radius: 10px;
+}

@@ -29,6 +29,7 @@ import Collab from "../pages/Collab/Collab";
 import EditorPage from "../pages/EditorPage/EditorPage";
 import LeaderBoard from "../pages/LeaderBoard/LeaderBoard";
 import Quiz from "../pages/Quiz/Quizhome";
+// import ReactChallenge from "../pages/Quiz/Components/ReactChallenge";
 
 const Routes = () => {
   const location = useLocation();
@@ -52,7 +53,8 @@ const Routes = () => {
             <Route path="*" element={<NotFound />} />
           </Route>
           <Route path="about" element={<About />} />
-          <Route path="Quiz" element={<Quiz />} />
+          <Route path="Challenge" element={<Quiz />} />
+          {/* <Route path="ReactChallenge" element={<React />} /> */}
           <Route path=":username">
             <Route index element={<Profile />} />
 

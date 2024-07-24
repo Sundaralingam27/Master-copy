@@ -76,7 +76,7 @@ const Resources = ({ saved }) => {
             Co-Code
           </LinkWrapper>
         </Link>
-        <Link to="Quiz">
+        <Link to="Challenge">
           <LinkWrapper>
             <Image src="../../../assets/images/quiz.png" />
             Dev-challenges

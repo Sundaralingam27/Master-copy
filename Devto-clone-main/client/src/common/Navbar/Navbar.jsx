@@ -114,7 +114,7 @@ const Navbar = () => {
                       <Link to="post">Create Post</Link>
                     </ListItem>
                     <ListItem>
-                      <Link to="readinglist">Reading list</Link>
+                      <Link to="reading-list">Reading list</Link>
                     </ListItem>
                     <ListItem>
                       <Link to="customize">Settings</Link>
