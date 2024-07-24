@@ -12,16 +12,17 @@ export default function Quizhome() {
 
   return (
     <div className="Quiz-container">
-      <img
+      {/* <img
         className="Quiz-image"
         src="../../../assets/images/challenges.png"
         alt=""
-      />
-      <h1>
+      /> */}
+      <div className="header-container">
+      <h1 className="quiz-header">
         Welcome to Dev challenges!
-        <span className="challenge-btn">Create a Challenge</span>
       </h1>
-
+      <button className="challenge-btn">Create a Challenge</button>
+      </div>
       <div className="cards-container">
         <div className="card">
           <img src="../../../assets/images/react.png" alt="React Challenge" />

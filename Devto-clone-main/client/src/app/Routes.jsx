@@ -53,7 +53,7 @@ const Routes = () => {
             <Route path="*" element={<NotFound />} />
           </Route>
           <Route path="about" element={<About />} />
-          <Route path="Challenge" element={<Quiz />} />
+          <Route path="challenge" element={<Quiz />} />
           {/* <Route path="ReactChallenge" element={<React />} /> */}
           <Route path=":username">
             <Route index element={<Profile />} />
