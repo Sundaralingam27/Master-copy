@@ -1,0 +1,17 @@
+.question-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 20px;
+}
+
+.question{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.options{
+    display: flex;
+    flex-direction: column;
+}
+
