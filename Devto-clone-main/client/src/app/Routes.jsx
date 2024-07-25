@@ -30,6 +30,7 @@ import EditorPage from "../pages/EditorPage/EditorPage";
 import LeaderBoard from "../pages/LeaderBoard/LeaderBoard";
 import Quiz from "../pages/Quiz/Quizhome";
 import NewChallenge from "../pages/Quiz/Components/NewChallenge";
+import Questions from "../pages/Questions/Questions";
 
 const Routes = () => {
   const location = useLocation();
@@ -44,43 +45,11 @@ const Routes = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="search" element={<Search />} />
+          
+          {/* Protected Routes */}
           <Route element={<RequireAuth />}>
             <Route path="post" element={<NewPost />} />
-          </Route>
-          <Route path="tags">
-            <Route index element={<Tags />} />
-            <Route path=":name" element={<Tag />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-          <Route path="about" element={<About />} />
-          <Route path="challenge" element={<Quiz />} />
-          <Route path="new-challenge" element={<NewChallenge />} />
-          <Route path=":username">
-            <Route index element={<Profile />} />
-
-            <Route path=":postUrl">
-              <Route index element={<PostPage />} />
-              <Route element={<RequireAuth />}>
-                <Route path="edit" element={<EditPost />} />
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Route>
-
-            <Route path="*" element={<NotFound />} />
-          </Route>
-
-          <Route element={<RequireAuth />}>
             <Route path="customize" element={<EditProfile />} />
-          </Route>
-
-          <Route path="auth">
-            <Route path="login" element={<Login />} />
-            <Route path="new" element={<SignUp />} />
-            <Route path="confirm/:confirmType" element={<Confirmation />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-
-          <Route element={<RequireAuth />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="notifications" element={<Notifications />} />
             <Route path="reading-list" element={<Home saved={true} />} />
@@ -88,8 +57,35 @@ const Routes = () => {
             <Route path="collab" element={<Collab />} />
             <Route path="/editor/:roomId" element={<EditorPage />} />
             <Route path="leaderboard" element={<LeaderBoard />} />
+            <Route path="challenges" element={<Quiz />} />
+            <Route path="new-challenge" element={<NewChallenge />} />
+            <Route path="challenges/:challengeId" element={<Questions />} />
           </Route>
 
+          {/* Public Routes */}
+          <Route path="tags">
+            <Route index element={<Tags />} />
+            <Route path=":name" element={<Tag />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+          <Route path="about" element={<About />} />
+          <Route path="auth">
+            <Route path="login" element={<Login />} />
+            <Route path="new" element={<SignUp />} />
+            <Route path="confirm/:confirmType" element={<Confirmation />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+          <Route path=":username">
+            <Route index element={<Profile />} />
+            <Route path=":postUrl">
+              <Route index element={<PostPage />} />
+              <Route element={<RequireAuth />}>
+                <Route path="edit" element={<EditPost />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Route>
       </RouterRoutes>

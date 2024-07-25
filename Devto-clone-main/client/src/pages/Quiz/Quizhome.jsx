@@ -8,6 +8,7 @@ export default function Quizhome() {
   const navigate = useNavigate();
 
   const handleNavigate = (path) => {
+    console.log(path,'path')
     navigate(path);
   };
 
@@ -40,14 +41,14 @@ export default function Quizhome() {
       </div>
       <div className="cards-container">
         {challenges.map((challenge) => (
-          <div key={challenge.id} className="card">
+          <div key={challenge._id} className="card">
             <img src={challenge.imageUrl} alt={challenge.title} className="card-image"/>
             <div className="card-body">
               <h2 className="card-title">{challenge.title}</h2>
               <p className="card-text">{challenge.description}</p>
               <button
                 className="btn btn-primary"
-                onClick={() => handleNavigate(`/challenge/${challenge._id}`)}
+                onClick={() => handleNavigate(`${challenge._id}`)}
               >
                 Let's Start
               </button>

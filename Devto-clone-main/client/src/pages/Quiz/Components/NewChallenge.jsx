@@ -3,18 +3,21 @@ import { useRef, useState } from "react";
 import useBase64 from "../../../hooks/useBase64";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import * as XLSX from 'xlsx';
 
 export default function NewChallenge() {
   const [title, setTitle] = useState("");
   const [file, setFile] = useState("");
   const [badge, setBadge] = useState("");
   const [body, setBody] = useState("");
+  const [excelFile, setExcelFile] = useState(null);
   const previewURL = useBase64(file);
   const badgeURL = useBase64(badge);
   const filePickerRef = useRef();
   const badgePickerRef = useRef();
+  const excelPickerRef = useRef();
   const navigate = useNavigate();
-  
+
   const handleSubmit = async () => {
     try {
       const challenge = {
@@ -25,15 +28,43 @@ export default function NewChallenge() {
         badgeUrl: previewURL,
       };
 
-      console.log(challenge,'challenge')
+      console.log(challenge, 'challenge')
       const response = await axios.post(
         "http://localhost:5000/challenges",
         challenge
       );
-      console.log(response,'res')
+      console.log(response, 'res')
       setTitle("");
       setFile("");
       setBody("");
+
+      if (excelFile) {
+        // Read the Excel file
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const json = XLSX.utils.sheet_to_json(worksheet);
+
+          // Format data
+          const formattedQuestions = json.map((q) => ({
+            question: q.Question,
+            option1: q['Option A'],
+            option2: q['Option A_1'],
+            option3: q['Option A_2'],
+            option4: q['Option A_3'],
+            answer: q.Answer,
+            challengeId: response.data._id, // Use the saved challenge ID
+          }));
+
+          // Send questions to server
+          await axios.post("http://localhost:5000/questions/bulk", formattedQuestions);
+          console.log('Questions uploaded successfully');
+        };
+        reader.readAsArrayBuffer(excelFile);
+      }
 
       navigate("/challenge");
     } catch (err) {
@@ -70,21 +101,18 @@ export default function NewChallenge() {
           <label>Description</label>
           <input onChange={(e) => setBody(e.target.value)} />
         </div>
-        {/* <div className="image-container">
+        <div className="file-container">
           <input
             type="file"
-            ref={badgePickerRef}
-            onChange={(e) => setBadge(e.target.files[0])}
+            ref={excelPickerRef}
+            onChange={(e) => setExcelFile(e.target.files[0])}
             style={{ display: "none" }}
+            accept=".xlsx, .xls"
           />
-          <img
-            src="../../../assets/images/badge.png"
-            alt="Please pick an image"
-          />
-          <button onClick={() => badgePickerRef.current.click()}>
-            Choose Badge
+          <button onClick={() => excelPickerRef.current.click()}>
+            Upload Questions (Excel)
           </button>
-        </div> */}
+        </div>
         <div className="btn-container">
           <button onClick={handleSubmit}>Submit</button>
         </div>

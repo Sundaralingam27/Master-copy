@@ -70,19 +70,19 @@ const Resources = ({ saved }) => {
             Tags
           </LinkWrapper>
         </Link>
-        <Link to="collab">
+        <Link to="/collab">
           <LinkWrapper>
             <Image src="../../../assets/images/collab-code.png" />
             Co-Code
           </LinkWrapper>
         </Link>
-        <Link to="challenge">
+        <Link to="/challenges">
           <LinkWrapper>
             <Image src="../../../assets/images/quiz.png" />
             Dev-challenges
           </LinkWrapper>
         </Link>
-        <Link to="leaderboard">
+        <Link to="/leaderboard">
           <LinkWrapper>
             <Image src="../../../assets/images/leaderboard.png" />
             LeaderBoard
