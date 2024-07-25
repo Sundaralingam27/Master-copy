@@ -62,6 +62,7 @@ app.use('/comments', require('./routes/comments'));
 app.use('/tags', require('./routes/tags'));
 app.use('/conversations', require('./routes/conversation'));
 app.use('/messages', require('./routes/message'));
+app.use('/challenges', require('./routes/challenges'));
 
 // Multer setup for file uploads
 const storage = multer.diskStorage({
